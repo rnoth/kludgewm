@@ -1,0 +1,31 @@
+super + Return
+	urxvt +sb -fg white -bg black -tr
+
+super + d
+	exec dmenu_run
+
+super + Escape
+	exec pkill -USR1 -x sxhkd
+
+super + c
+	cmus-remote -u
+	
+### Window Manipulation
+
+super + shift + q
+	exec killw `pfw`
+
+super + alt + {h,l}
+	wrs {-24,24} 0 `pfw`
+
+super + alt + {k,j}
+	wrs 0 {-56,56} `pfw`
+
+super + alt + shift + {h,j,k,l}
+	wrs {-96,0,0,96} {0,224,-224,0} `pfw`
+
+super + m
+	xmmv
+	
+super + Tab
+	cff.sh & chwso -l `pfw`

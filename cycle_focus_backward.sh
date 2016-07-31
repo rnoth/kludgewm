@@ -16,7 +16,7 @@ function interate()
 }
 
 focus=`pfw`
-list=`lsw | sort`
+list=`lsw | sort -r`
 target=`interate`
 
 chwb -c 0x808080 -s 3 $focus

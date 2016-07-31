@@ -1,20 +1,44 @@
-super + Return
-	urxvt +sb -fg white -bg black -tr
-
-super + d
-	exec dmenu_run
+# bootstrap keybind
 
 super + Escape
 	exec pkill -USR1 -x sxhkd
 
+# useful stuff
+
 super + c
 	cmus-remote -u
 	
+super + minus
+	cmus-remote --vol -10%
+
+super + equal
+	cmus-remote --vol +10%
+
+super + v
+	touchpd-toggle.sh
+
+super + e
+	slock
+
 ### Window Manipulation
 
-super + shift + q
+# killing windows
+#super + q
+#	kill $(xprop -id `pfw` | grep WM_PID | cut -c 25-)
+	
+super + q
 	exec killw `pfw`
 
+# spawning windows
+#super + Return
+#	urxvt +sb -fg white -bg black -tr
+super + Return
+	st
+
+super + d
+	exec dmenu_run
+
+# resizing windows
 super + alt + {h,l}
 	wrs {-24,24} 0 `pfw`
 
@@ -24,8 +48,13 @@ super + alt + {k,j}
 super + alt + shift + {h,j,k,l}
 	wrs {-96,0,0,96} {0,224,-224,0} `pfw`
 
+# moving windows
 super + m
 	xmmv
 	
-super + Tab
-	cff.sh & chwso -l `pfw`
+# focusing windows
+super + bracketright
+	cff.sh
+
+super + bracketleft
+	cfb.sh

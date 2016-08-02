@@ -1,7 +1,10 @@
-# bootstrap keybind
+# essential stuff
 
 super + Escape
-	exec pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd
+
+super + shift + e
+	pkill -9-x "sleep 1d"
 
 # useful stuff
 
@@ -40,18 +43,43 @@ super + d
 
 # resizing windows
 super + alt + {h,l}
-	wrs {-24,24} 0 `pfw`
+	wrs {-48,48} 0 `pfw`
 
 super + alt + {k,j}
-	wrs 0 {-56,56} `pfw`
+	wrs 0 {-28,28} `pfw`
 
-super + alt + shift + {h,j,k,l}
-	wrs {-96,0,0,96} {0,224,-224,0} `pfw`
+super + alt + shift + {h,l}
+	wrs {-192,192} 0 `pfw`
+
+super + alt + shift + {k,j}
+	wrs 0 {-112,122} `pfw`
+
+super + m
+	maxi.sh
 
 # moving windows
-super + m
-	xmmv
+#super + m
+#	xmmv
 	
+super + control {h,l}
+	mw.sh {-48,48} 0 0 0
+
+super + control {k,j}
+	mw.sh 0 {-28,28} 0 0
+
+super + {h,l}
+	mw.sh {-192,192} 0 0 0
+
+super + {k,j}
+	mw.sh 0 {-112,112} 0 0	
+
+
+super + a; {h,l}
+	mw.sh {-48,48} 0 0 0
+
+super + a; {k,j}
+	mw.sh 0 {-28,28} 0 0
+
 # focusing windows
 super + bracketright
 	cff.sh

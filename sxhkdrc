@@ -4,7 +4,13 @@ super + Escape
 	pkill -USR1 -x sxhkd
 
 super + shift + e
-	pkill -9-x "sleep 1d"
+	pkill xinit
+
+super + b
+	pkill lem; \
+	rm ~/tmp/ignore.wid; \
+	~/.bar
+	echo "`lsw | tail -n 1`" > ~/tmp/ignore.wid
 
 # useful stuff
 
@@ -82,7 +88,7 @@ super + a; {k,j}
 
 # focusing windows
 super + bracketright
-	cff.sh
+	cf.sh forward
 
 super + bracketleft
-	cfb.sh
+	cf.sh backward

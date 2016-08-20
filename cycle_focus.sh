@@ -16,10 +16,15 @@ function interate()
 }
 
 focus=`pfw`
-list=`lsw | sort -r`
+[ $1 = "forward" ] && list=`lsw | sort`
+[ $1 = "backward" ] && list=`lsw | sort -r`
+
+if [ -e ~/tmp/ignore.wid ]; then
+	ignore=`cat ~/tmp/ignore.wid` 
+	list=`echo "$list" | sed /"$ignore"/d`
+fi
+
 target=`interate`
 
 chwb -c 0x808080 -s 3 $focus
 switch
-target=`interate`
-sleep 3

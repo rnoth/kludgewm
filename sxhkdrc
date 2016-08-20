@@ -9,8 +9,8 @@ super + shift + e
 super + b
 	pkill lem; \
 	rm ~/tmp/ignore.wid; \
-	~/.bar
-	echo "`lsw | tail -n 1`" > ~/tmp/ignore.wid
+	bar; \
+	find_bar.sh
 
 # useful stuff
 

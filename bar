@@ -27,4 +27,3 @@ while read -r event; do
 			
 	echo %{r}$song" | "$charge" | "$time" "
 done < "$BAR_FIFO" | lemonbar &
-echo "`lsw | head -n 1`" > ~/tmp/ignore.wid

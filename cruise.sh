@@ -4,4 +4,4 @@
 {k,j}
         mw.sh 0 {-112,112} 0 0
 q
-	pkill -15 cruise
+	modal.sh mode normal

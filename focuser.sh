@@ -1,6 +1,6 @@
 #! /bin/sh
 
-wewpipe=~/temp/wew
+wewpipe=~/tmp/wew
 
 trap "rm -f $wewpipe" INT HUP TERM QUIT EXIT
 
@@ -12,7 +12,7 @@ fi
 
 switch() {
 	chwb -c 0x808080 $focus
-	echo "$focus" > ~/temp/previous.wid
+	echo "$focus" > ~/tmp/previous.wid
 	wtf $target
 	focus=`pfw`
 	chwb -c 0x808080 -s 3 $focus
@@ -27,11 +27,12 @@ while read event; do
 	echo $event
 	case $event in
 		16:*) 
+			[ `echo "$event" | cut -c 4-` = `cat ~/tmp/ignore.wid` ] && continue
 			target=`echo $event | cut -c 4-`
 			switch
 		;;
 		17:*)
-			target=`more ~/temp/previous.wid`
+			target=`cat ~/tmp/previous.wid`
 			switch
 		;;			
 	esac

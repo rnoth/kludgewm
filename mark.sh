@@ -9,11 +9,11 @@ mark_window() {
 }
 
 list_marks() {
-	ls $TEMPDIR/.marks
+	ls $TEMPDIR/.marks | sed s/.wid//
 }
 
 get_wid(){
-	cat $TEMPDIR/.marks/"$target"
+	cat $TEMPDIR/.marks/"$target".wid
 }
 
 if_no_mark(){
@@ -31,8 +31,9 @@ case $1 in
 		;;
 	recall)
 		target=`list_marks | dmenu -b -p "Recall: "`
-		wtf `get_wid`
-		mapw -m `pfw`
+		window=`get_wid`
+		mapw -m $window
+		wtf $window
 		if_no_mark
 		;;
 	qrecall)

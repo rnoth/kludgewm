@@ -26,4 +26,4 @@ while read -r event; do
 	esac
 			
 	echo %{r}$song" | "$charge" | "$time" "
-done < "$BAR_FIFO" | lemonbar &
+done < "$BAR_FIFO" | lemonbar 

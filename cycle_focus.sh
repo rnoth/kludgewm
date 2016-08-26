@@ -1,6 +1,6 @@
-#! /bin/env bash
+#!/bin/sh
 
-function switch()
+switch()
 {
 	wtf $target 
 	chwb -s 3 $target
@@ -8,7 +8,7 @@ function switch()
 	focus=$target
 }
 
-function interate()
+interate()
 {
 	next=`echo "$list" | grep $focus -B 1 | sed 2d`
 	if [ -z $next ]; then next=`echo "$list" | head -n 1`; fi

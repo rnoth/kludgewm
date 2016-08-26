@@ -1,10 +1,10 @@
 #! /bin/sh
 
-if [ -e ~/temp/`pfw`.max ]; then
-	wtp $(cat ~/temp/`pfw`.max) `pfw`
-	rm ~/temp/`pfw`.max
+if [ -e ~/tmp/`pfw`.max ]; then
+	wtp $(cat ~/tmp/`pfw`.max) `pfw`
+	rm ~/tmp/`pfw`.max
 else
-	wattr xywh `pfw` > ~/temp/`pfw`.max
+	wattr xywh `pfw` > ~/tmp/`pfw`.max
 	root=$(wattr wh `lsw -r`)
 	bord=$(wattr b `pfw`);bord="-"$bord" -"$bord
 	wtp $bord $root `pfw`

@@ -42,7 +42,7 @@ case $1 in
 		if_no_mark
 		;;
 	unmark)
-		target=`list_marks | dmenu -b -p "Recall: "`
+		target=`list_marks | dmenu -b -p "Unmark: "`
 		rm $TEMPDIR/.marks/"$target".wid
 		if_no_mark
 		;;

@@ -4,7 +4,7 @@
 [ ! -e $TMPDIR/.marks ] && mkdir $TMPDIR/.marks
 
 mark_window() {
-	echo `pfw` > $TMPDIR/.marks/"$mark".wid
+	echo `pfw` > $TMPDIR/.marks/$1"$mark".wid
 }
 
 list_marks() {
@@ -12,7 +12,7 @@ list_marks() {
 }
 
 get_wid(){
-	cat $TMPDIR/.marks/"$target".wid
+	cat $TMPDIR/.marks/$1"$target".wid
 }
 
 if_no_mark(){
@@ -26,18 +26,19 @@ case $1 in
 		;;
 	qmark)
 		mark=$2
-		mark_window
+		mark_window .
 		;;
 	recall)
+		mv $TMPDIR/focus.wid $TMPDIR/previous.wid
 		target=`list_marks | dmenu -b -p "Recall: "`
 		window=`get_wid`
 		mapw -m $window
-		wtf $window
+		wtf $window && echo $window > $TMPDIR/focus.wid
 		if_no_mark
 		;;
 	qrecall)
 		target=$2
-		wtf `get_wid`
+		wtf `get_wid '.'`
 		if_no_mark
 		;;
 	unmark)
@@ -57,5 +58,8 @@ case $1 in
 	qhide)
 		target=$2
 		mapw -u `cat $TMPDIR/.marks/"$target".wid`
+		;;
+	exit)
+		rm -r $TMPDIR/.marks
 		;;
 esac	

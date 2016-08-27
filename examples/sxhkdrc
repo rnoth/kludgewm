@@ -4,7 +4,7 @@ super + Escape
 	pkill -USR1 -x sxhkd
 
 super + shift + e
-	exec killx
+	killx
 
 ## useful stuff
 
@@ -77,11 +77,11 @@ super + q
 super + Return
 	st -g 292x292+483+204
 
-super + p
-	session.sh
+hyper + p
+	spawn.sh
 
 super + space
-	xlaunch	
+	xlaunch
 
 # resizing windows
 
@@ -96,6 +96,9 @@ alt + shift + {h,l}
 
 alt + shift + {k,j}
 	wrs 0 {-112,122} `pfw`
+
+alt + w; l
+	ex.sh right
 
 super + m
 	maxi.sh
@@ -123,7 +126,7 @@ super + {k,j}
 
 # focusing windows
 
-super + {bracketright,bracketleft}
+hyper + {bracketright,bracketleft}
 	cf.sh {forward,backward}
 
 super + shift + {bracketright,bracketleft}

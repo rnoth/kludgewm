@@ -1,11 +1,12 @@
 #!/bin/sh
 
-#modal.sh mode normal
+# TODO:
+# add the code to be able to start/stop individual daemons
 
 [ -z $2 ] && echo No enough arguments && exit 1
 
-trap "reload" HUP
-trap "stop" INT TERM
+trap "reload all" HUP
+trap "stop all" INT TERM
 
 idle(){
 	while true; do sleep 1000; done
@@ -19,11 +20,13 @@ start(){
 		RAINBOW_PID=$!
 		autofocus.sh &
 		AUTOFOCUS_PID=$!
-		idle
+		return 0
 	else
-		exec $1
+		echo Feature not implemented && exit 1
+		#exec $1
 	fi
 }
+
 reload(){
 	case $1 in
 		all)
@@ -62,11 +65,17 @@ stop(){
 		pkill rainbow.sh
 		pkill autofocus.sh
 		pkill sxhkd
+	else
+		echo Feature not implemented && exit 1
 	fi
+	
+	exit 0
 }
+
 case $1 in
 	start)
 		start $2
+		idle
 		;;
 	*)
 		exit 1

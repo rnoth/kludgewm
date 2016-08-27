@@ -1,6 +1,6 @@
 #!/bin/sh
 
-[ `lsw | wc -l` = -eq 1 ] && exit 1
+[ `lsw | wc -l` -eq 1 ] && exit 1
 
 switch(){
 	echo $1 > $TMPDIR/focus.wid

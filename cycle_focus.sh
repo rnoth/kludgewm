@@ -1,30 +1,30 @@
 #!/bin/sh
 
-switch()
-{
-	wtf $target 
-	chwb -s 3 $target
-	chwso -r $target
-	focus=$target
+[ `lsw | wc -l` = -eq 1 ] && exit 1
+
+switch(){
+	echo $1 > $TMPDIR/focus.wid
+	wtf $1 
+	chwb -s 3 $1
+	chwso -r $1
+	focus=$1
 }
 
-interate()
-{
+interate(){
 	next=`echo "$list" | grep $focus -B 1 | sed 2d`
-	if [ -z $next ]; then next=`echo "$list" | head -n 1`; fi
-	echo "$next"
+	[ -z $next ] && next=`echo "$list" | tail -n 1`
+	echo $next
 }
 
-focus=`pfw`
+[ ! -f $TMPDIR/focus.wid ] && exit 1
+
+focus=`cat $TMPDIR/focus.wid`
+
 [ $1 = "forward" ] && list=`lsw | sort`
 [ $1 = "backward" ] && list=`lsw | sort -r`
 
-if [ -e ~/tmp/ignore.wid ]; then
-	ignore=`cat ~/tmp/ignore.wid` 
-	list=`echo "$list" | sed /"$ignore"/d`
-fi
-
 target=`interate`
 
-chwb -c 0x808080 -s 3 $focus
-switch
+chwb -c 0x808080 -s $BORDER $focus
+echo $focus > $TMPDIR/previous.wid
+switch $target

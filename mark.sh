@@ -1,19 +1,18 @@
 #!/bin/sh
 
-TEMPDIR=~/tmp
-
 [ -z $1 ] && echo "No enough arguments" && exit 1
+[ ! -e $TMPDIR/.marks ] && mkdir $TMPDIR/.marks
 
 mark_window() {
-	echo `pfw` > $TEMPDIR/.marks/"$mark".wid
+	echo `pfw` > $TMPDIR/.marks/"$mark".wid
 }
 
 list_marks() {
-	ls $TEMPDIR/.marks | sed s/.wid//
+	ls $TMPDIR/.marks | sed s/.wid//
 }
 
 get_wid(){
-	cat $TEMPDIR/.marks/"$target".wid
+	cat $TMPDIR/.marks/"$target".wid
 }
 
 if_no_mark(){
@@ -43,12 +42,12 @@ case $1 in
 		;;
 	unmark)
 		target=`list_marks | dmenu -b -p "Unmark: "`
-		rm $TEMPDIR/.marks/"$target".wid
+		rm $TMPDIR/.marks/"$target".wid
 		if_no_mark
 		;;
 	qunmark)
 		target=$2
-		rm $TEMPDIR/.marks/"$target".wid
+		rm $TMPDIR/.marks/"$target".wid
 		if_no_mark
 		;;
 	hide)
@@ -57,6 +56,6 @@ case $1 in
 		;;
 	qhide)
 		target=$2
-		mapw -u `cat $TEMPDIR/.marks/"$target".wid`
+		mapw -u `cat $TMPDIR/.marks/"$target".wid`
 		;;
 esac	

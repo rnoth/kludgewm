@@ -1,13 +1,11 @@
 #! /bin/sh
 
-wewpipe=~/tmp/wew
+trap "rm -f $WEWPIPE; exit 1" INT TERM QUIT EXIT
 
-trap "rm -f $wewpipe; exit 1" INT HUP TERM QUIT EXIT
-
-if [ ! -p $wewpipe ]; then
-	rm -rf $wewpipe
-	mkfifo $wewpipe
-	wew > $wewpipe &
+if [ ! -p $WEWPIPE ]; then
+	rm -rf $WEWPIPE
+	mkfifo $WEWPIPE
+	wew > $WEWPIPE &
 fi
 
 switch() {
@@ -15,25 +13,27 @@ switch() {
 	focus=$target
 	chwb -c 0x808080 -s 3 $focus
 	chwso -r $focus
+	echo $focus > TMPDIR/focus.wid
 }
 
 while read event; do
-	focus=`pfw 2&> /dev/null`
-	echo $event
+	[ ! -f $TMPDIR/focus.wid ] && continue
+	focus=`pfw`
 	case $event in
 		7:*) 
 			chwb -c 0x808080 $focus
 			target=`echo $event | cut -c 3-`
 			switch
 		;;
-		16:*)
-			chwb -c 0x808080 $focus
-			target=`echo $event | cut -c 4-`
-			switch
-		;;
+#		16:*)
+#			chwb -c 0x808080 $focus
+#			target=`echo $event | cut -c 4-`
+#			switch
+#		;;
 		17:*)
-			target=`lsw | sort | sed 1q`
+			target=`cat $TMPDIR/previous.wid`
+			[ -z $target ] && target=`lsw | sort | sed 1q`
 			switch
 		;;			
 	esac
-done < $wewpipe
+done < $WEWPIPE

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pkill wmd.sh
+pkill X

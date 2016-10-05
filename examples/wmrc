@@ -1,0 +1,20 @@
+#!/bin/sh
+
+DISPLAY=:0
+TMPDIR=/home/$USER/tmp
+BORDER=3
+
+export TMPDIR BORDER DISPLAY
+
+X -quiet &
+xpid=$!
+until lsw; do continue; done
+
+sxhkd &
+rainbow.sh &
+
+hsetroot -fill Stars.jpg
+xmodmap .Xmodmap.bak
+
+wait xpid
+exec mksh

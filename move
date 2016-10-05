@@ -1,47 +1,46 @@
-#!/usr/bin/perl
+#! /bin/sh
 
-#use warnings;
+[ -z "$X_PAD_LEFT" ] && export X_PAD_LEFT=0
+[ -z "$Y_PAD_TOP" ] && export Y_PAD_TOP=0
 
-sub parse_args {
-	# sets boundaries on the screen, and any user-supplied options
-	$xdelta = $ARGV[0];
-	$ydelta = $ARGV[1];
-	if ( !defined $xdelta){print "fatal: not enough arguments.";exit 1};
-	if ( !defined $ARGV[3] ) {
-	# sets the default if there are no extra options
-		chomp($focus = `pfw`);
-		
-		chomp($xinit = `wattr x $focus`);
-		chomp($yinit = `wattr y $focus`);
-		
-		chomp($xwidth = `wattr w $focus`);
-		chomp($ylength = `wattr h $focus`);
+FW=`pfw`
+ROOT=`lsw -r`
+BORDER=`wattr b $FW`
 
-		chomp($border = `wattr b $focus`);
+MAX_X=$(expr `wattr w $ROOT` - 2 \* $BORDER)
+MAX_Y=$(expr `wattr h $ROOT` - 2 \* $BORDER)
 
-	} else {
-	# parses extra options
-	# blank because no support for them yet (TODO)
-	}
-}
+win_x=`wattr x $FW`
+win_y=`wattr y $FW`
+win_w=`wattr w $FW`
+win_h=`wattr h $FW`
 
-$xmax = `wattr w \$(lsw -r)`;
-$ymax = `wattr h \$(lsw -r)`;
+delta_x=$1
+delta_y=$2
+delta_w=$3
+delta_h=$4
+shift 4
 
-$xmin = 0;
-$ymin = 0;
+x=`expr $win_x + $delta_x`
 
-print "$xdelta $ydelta $xwidth $ylength $focus\n";
+if [ `expr $x + $win_w` -gt $MAX_X ]; then
+	x=`expr $MAX_X - $win_w`
+elif [ $x -lt $X_PAD_LEFT ]; then
+	x=$X_PAD_LEFT
+fi
 
-$xnew = $xinit + $xdelta;
+y=`expr $win_y + $delta_y`
 
-if ( $xnew + $xwidth > $xmax ) { $xnew = $xmax - $xwidth - 2 * $border};
-if ( $xnew < $xmin ) { $xnew = $xmin };
+if [ `expr $y + $win_h` -gt $MAX_Y ]; then
+	y=`expr $MAX_Y - $win_h`
+elif [ $y -lt $Y_PAD_TOP ]; then
+	y=$Y_PAD_TOP
+fi
 
-$ynew = $yinit + $ydelta;
+w=`expr $win_w + $delta_w`
 
-if ( $ynew + $ylength > $ymax ) { $ynew = $ymax - $ylength + 2 * $border};
-if ( $ynew < $ymin ) { $ynew = $ymin };
+h=`expr $win_h + $delta_h`
 
-print "$xnew $ynew $xwidth $ylength $focus\n";
-`wtp $xnew $ynew $xwidth $ylength $focus`;
+wtp $x $y $w $h $FW
+
+kludge "$@"

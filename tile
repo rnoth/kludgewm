@@ -5,7 +5,7 @@ gap=${1:-0}
 ee(){ echo "$@" | bc
 }
 
-master=`pfw` || kludgee cycle_focus
+master=`pfw` || kludge cycle_focus forward
 test -n $1 || master=$1
 
 stack=`lsw | grep -v $master`

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+TMPDIR=${TMPDIR:-/tmp}
+
+test $1 = 'switch' && { nview=`cat ${TMPDIR}/hiden.wid`
+lsw | tee ${TMPDIR}/hiden.wid | xargs mapw -u
+echo $nview | xargs mapw -m 
+	}
+
+test $1 = 'attach' && mapw -m `tail -n 1 ${TMPDIR}/hiden.wid`
+test $1 = 'detach' && mapw -u `pfw` #TODO make this more flexible

@@ -1,65 +1,18 @@
 #!/bin/sh
 
-[ -z $1 ] && echo "No enough arguments" && exit 1
-[ ! -e $TMPDIR/.marks ] && mkdir $TMPDIR/.marks
+TMPDIR=${TMPDIR:-/tmp}
 
-mark_window() {
-	echo `pfw` > $TMPDIR/.marks/$1"$mark".wid
-}
+test -z $1 && echo "No enough arguments" && exit 1
+test ! -e ${TMPDIR}/marks && mkdir ${TMPDIR}/marks
 
-list_marks() {
-	ls $TMPDIR/.marks | sed s/.wid//
-}
+until test -z $1; do
+	case $1 in
+	 -m) shift; mark="$1"; shift ;;
+	 -u) shift; rm ${TMPDIR}/marks/${1}; shift;;
+	 0x*) echo $1 > ${TMPDIR}/marks/"${mark}"; shift ;;
+	 --) break ;;
+	 *) echo "invalid input"; shift ;;
+	esac
+done
 
-get_wid(){
-	cat $TMPDIR/.marks/$1"$target".wid
-}
-
-if_no_mark(){
-	[ $? != 0 ] && echo "mark.sh: $target not found"
-}
-
-case $1 in
-	mark)
-		mark=`list_marks | dmenu -b -p "Mark: "`
-		mark_window
-		;;
-	qmark)
-		mark=$2
-		mark_window .
-		;;
-	recall)
-		mv $TMPDIR/focus.wid $TMPDIR/previous.wid
-		target=`list_marks | dmenu -b -p "Recall: "`
-		window=`get_wid`
-		mapw -m $window
-		wtf $window && echo $window > $TMPDIR/focus.wid
-		if_no_mark
-		;;
-	qrecall)
-		target=$2
-		wtf `get_wid '.'`
-		if_no_mark
-		;;
-	unmark)
-		target=`list_marks | dmenu -b -p "Unmark: "`
-		rm $TMPDIR/.marks/"$target".wid
-		if_no_mark
-		;;
-	qunmark)
-		target=$2
-		rm $TMPDIR/.marks/"$target".wid
-		if_no_mark
-		;;
-	hide)
-		target=`list_marks | dmenu -b -p "Hide: "`
-		mapw -u `get_wid`
-		;;
-	qhide)
-		target=$2
-		mapw -u `cat $TMPDIR/.marks/"$target".wid`
-		;;
-	exit)
-		rm -r $TMPDIR/.marks
-		;;
-esac	
+kludge "$@"

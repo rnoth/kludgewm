@@ -1,5 +1,9 @@
 #!/bin/sh
-if [ -f ~/tmp/hiden.wid ]; then
+
+TMPDIR=${TMPDIR:-/tmp}
+
+
+if test -f ~/tmp/hiden.wid;  then
 	mapw -m `cat ~/tmp/hiden.wid`
 	wtf `cat ~/tmp/hiden.wid`
 	chwso -r `pfw`

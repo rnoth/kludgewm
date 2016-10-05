@@ -1,40 +1,43 @@
 ## essential stuff
 
+XF86PowerOff
+	blankscreen
+
 super + y
 	pkill -USR1 -x sxhkd
 
 super + shift + e
-	exec pkill X
-
+	lsw -a | xargs killwa
 
 ## Misc.
 
 alt + s
-	v.sh; focushack
-
+	kludge view switch
 alt + a
-	mapw -m `lsw -u | sed 1q`; focushack
-
+	kludge view attach
 alt + d
-	mapw -u `pfw`; focushack
-	
+	kludge view detach	
+
 super + e
 	slock
 
-## Window Manipulation
+super + b; {a-z}
+	mark -m {a-z} `pfw`
+super + r; {a-z}
+	wtf `kludge recall {a-z}`
 
-# killing windows
-	
-alt + shift + q
+## Window bindings	
+
+super + q
 	killwa `pfw`
 
 # spawning windows
 
 alt + t
-	exec st #-g 292x292+483+204
+	st 
 
-alt + p
-	spawn.sh
+alt + shift  + s
+	surf
 
 alt + space
 	xlaunch
@@ -53,20 +56,14 @@ alt + shift + {h,l}
 alt + shift + {k,j}
 	wrs 0 {-112,122} `pfw`
 
-alt + w; l
-	ex.sh right
-
-super + {_,shift} + m
-	maximize {toggle,switch}
+super + m
+	kludge maximize toggle
 
 super + t
-	tile
+	kludge tile
 
-# moving windows
-
-#super + m
-#	xmmv
-	
+super + c
+	kludge center
 
 super + {h,l}
 	mw.sh {-192,192} 0 0 0
@@ -79,42 +76,10 @@ super + control {h,l}
 super + control {k,j}
 	mw.sh 0 {-28,28} 0 0
 
-#super + {h,l,k,j}
-#	wmv {-192,192,0,0} {0,0,-112,112}`pfw`
-
-#super + {h,l}
-#	mw.sh {-192,192} 0 0 0
-
-#super + {k,j}
-#	mw.sh 0 {-112,112} 0 0	
-
-
 # focusing windows
 
-hyper + {bracketright,bracketleft}
-	cf.sh {forward,backward}
-
-super + shift + {bracketright,bracketleft}
-	chwb -c 0x808080 `pfw`; \
-	wtf `lsw | sort | {tail,head} -n 1`
-	chwb -s 3 `pfw`
+super + {bracketright,bracketleft}
+	kludge cycle_focus {forward,backward}
 
 super + Tab
-	exec focushack
-
-## useful stuff
-
-super + c
-	cmus-remote -u
-	
-super + minus
-	cmus-remote --vol -10%
-
-super + equal
-	cmus-remote --vol +10%
-
-super + z
-	cmus-magic.sh
-
-super + v
-	touchpd-toggle.sh
+	focushack

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sxhkd | while read alert; do
+	echo $alert
+done | lemonbar &
+find_bar

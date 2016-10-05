@@ -1,0 +1,15 @@
+#!/bin/sh
+
+TMPDIR=${TMPDIR:-/tmp}
+
+test -z "$1" && { ls -b ${TMPDIR}/marks | \
+	while read mark; do
+		printf "%s\t%s\n" ${mark} `cat ${TMPDIR}/marks/${mark}`
+	done
+	}
+
+test -n "$1" && { cat ${TMPDIR}/marks/${1}
+		shift 
+		}
+
+kludge "$@"

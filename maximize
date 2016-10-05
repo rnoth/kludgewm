@@ -1,5 +1,7 @@
 #! /bin/sh
 
+TMPDIR=${TMDPDIR:-'/tmp'}
+
 maxshow(){
 	while read window; do
 		mapw -m $window

@@ -1,5 +1,8 @@
 #! /bin/sh
 
+TMPDIR=/home/$USER/tmp
+export WEWPIPE=$TMPDIR/wewpipe
+
 trap "rm -f $WEWPIPE; exit 1" INT TERM QUIT EXIT
 
 if [ ! -p $WEWPIPE ]; then

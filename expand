@@ -1,0 +1,11 @@
+#!/bin/sh
+test -z $1 && exit 1
+
+case $1 in
+	right) wrs $(wattr w $(pfw) ) 0 `pfw` ;;
+	left) wrs $(wattr w $(pfw) ) 0 `pfw` ;;
+	up) wrs 0 $(wattr h $(pfw) ) `pfw`
+	    wmv 0 $(wattr h $(pfw) ) `pfw` ;;
+	down) wrs 0 $(wattr h $(pfw) ) `pfw` ;;
+	*) exit 1 ;;
+esac

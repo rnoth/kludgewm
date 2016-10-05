@@ -19,6 +19,7 @@ delta_x=$1
 delta_y=$2
 delta_w=$3
 delta_h=$4
+shift 4
 
 x=`expr $win_x + $delta_x`
 
@@ -41,3 +42,5 @@ w=`expr $win_w + $delta_w`
 h=`expr $win_h + $delta_h`
 
 wtp $x $y $w $h $FW
+
+kludge "$@"

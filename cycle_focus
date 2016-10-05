@@ -1,0 +1,48 @@
+#!/bin/sh
+
+BORDER=${BORDER:-2}
+NBORDER=${DBORDER:-$BORDER}
+ABORDER=${FBORDER:-$BORDER}
+
+switch(){
+	echo $1 > $TMPDIR/focus.wid
+	wtf $1 
+	chwb -c 0xb00030 -s $ABORDER $1
+	chwso -r $1
+	focus=$1
+}
+
+iterate(){
+	next=`echo "$list" | grep $focus -B 1 | sed 2d`
+	test -z $next && next=`echo "$list" | tail -n 1`
+	echo $next
+}
+
+test `lsw | wc -l` -eq '1' && {
+	switch `lsw` 
+	lsw > ${TMPDIR}/focus.wid
+	exit 1
+}
+
+#test -z `pfw` && switch `iterate`
+
+test $1 = "forward" && list=`lsw | sort`
+test $1 = "backward" && list=`lsw | sort -r`
+test $1 = "fix" && exit 0
+shift
+
+focus=`cat $TMPDIR/focus.wid`
+
+target=`iterate`
+
+chwb -c 0x000000 -s $NBORDER $focus
+echo $focus > $TMPDIR/previous.wid
+
+diff=`echo 2*\($NBORDER - $ABORDER\) | bc`
+wrs $diff $diff $focus
+
+switch $target
+diff=`echo 2*\($ABORDER - $NBORDER\) | bc`
+wrs $diff $diff $focus
+
+kludge "$@"

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# TODO: make this portable
+KLUDGEDIR=/home/moth/usr/proj/kludgewm
+
+test "$1" = '-i' && while read command; do
+	exec ${KLUDGEDIR}/$command
+done
+
+test -n "$1" && exec ${KLUDGEDIR}/${@} 

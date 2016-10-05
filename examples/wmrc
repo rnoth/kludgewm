@@ -3,8 +3,11 @@
 DISPLAY=:0
 TMPDIR=/home/$USER/tmp
 BORDER=3
+ACTIVE_BORDER=3
+INACTIVE_BORDER=0
+BORDER_COLOR=cc4444
 
-export TMPDIR BORDER DISPLAY
+export DISPLAY TMPDIR BORDER ACTIVE_BORDER INACTIVE_BORDER BORDER_COLOR
 
 X -quiet &
 xpid=$!
@@ -16,5 +19,4 @@ rainbow.sh &
 hsetroot -fill Stars.jpg
 xmodmap .Xmodmap.bak
 
-wait xpid
-exec mksh
+wait xpid 

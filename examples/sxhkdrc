@@ -6,23 +6,17 @@ XF86PowerOff
 super + y
 	pkill -USR1 -x sxhkd
 
-super + shift + e
+alt + shift + e
 	lsw -a | xargs killwa
-
-## Misc.
-
-alt + s
-	kludge view switch
-alt + a
-	kludge view attach
-alt + d
-	kludge view detach	
 
 super + e
 	slock
 
+super + i
+	iimenu
+
 super + b; {a-z}
-	mark -m {a-z} `pfw`
+	kludge mark -m {a-z} `pfw`
 super + r; {a-z}
 	wtf `kludge recall {a-z}`
 
@@ -33,13 +27,13 @@ super + q
 
 # spawning windows
 
-alt + t
-	st 
+super + t
+	st -e mksh
 
-alt + shift  + s
-	surf
+super  + s
+	tabbed -c -p s- surf -e
 
-alt + space
+alt + p
 	xlaunch
 
 # resizing windows
@@ -50,36 +44,36 @@ alt + {h,l}
 alt + {k,j}
 	wrs 0 {-28,28} `pfw`
 
-alt + shift + {h,l}
-	mw.sh {-48,48} 0 {48,48} 0 `pfw`
-
 alt + shift + {k,j}
 	wrs 0 {-112,122} `pfw`
 
 super + m
 	kludge maximize toggle
 
-super + t
+alt + t
 	kludge tile
 
 super + c
 	kludge center
 
 super + {h,l}
-	mw.sh {-192,192} 0 0 0
+	kludge move {-192,192} 0 0 0
+
 super + {k,j}
-	mw.sh 0 {-112,112} 0 0
+	kludge move 0 {-112,112} 0 0
 
 super + control {h,l}
-	mw.sh {-48,48} 0 0 0
+	kludge move {-48,48} 0 0 0
 
 super + control {k,j}
-	mw.sh 0 {-28,28} 0 0
+	kludge move 0 {-28,28} 0 0
 
 # focusing windows
 
-super + {bracketright,bracketleft}
+alt + {bracketright,bracketleft}
 	kludge cycle_focus {forward,backward}
 
-super + Tab
+super + {bracketright,bracketleft}
+	kludge cycle_focus {forward,backward}
+alt + Tab
 	focushack

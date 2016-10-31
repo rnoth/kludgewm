@@ -1,11 +1,33 @@
 #!/bin/sh
 
-TMPDIR=${TMPDIR:-/tmp}
+KLDGDIR=${KLDGDIR:-/tmp}
 
-test $1 = 'switch' && { nview=`cat ${TMPDIR}/hiden.wid`
-lsw | tee ${TMPDIR}/hiden.wid | xargs mapw -u
-echo $nview | xargs mapw -m 
-	}
+while 	case $1 in
 
-test $1 = 'attach' && mapw -m `tail -n 1 ${TMPDIR}/hiden.wid`
-test $1 = 'detach' && mapw -u `pfw` #TODO make this more flexible
+	(switch) nview=`lsw | xargs wattr xywhi | fgrep - | sed 's/-//'`
+	oview=`lsw | xargs wattr xywhi | fgrep -v - | sed s/^/-/`
+	echo "$oview" | while read window
+		do	wtp $window
+		done
+	echo "$nview" | while read window
+		do	wtp $window
+		done
+	;;
+
+	(attach) mapw -m `tail -n 1 ${KLDGDIR}/hiden.wid`
+	tmp=`tac ${KLDGDIR}/hiden.wid |sed 1d| tac`
+	echo "$tmp" > ${KLDGDIR}/hiden.wid
+	;;
+
+	(detach) pfw >> ${KLDGDIR}/hiden.wid
+	mapw -u `pfw` 
+	;;
+
+	(*) break ;;
+
+	esac
+do shift || break
+done
+
+exec kludge "$@"
+# end of file

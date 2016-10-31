@@ -3,8 +3,8 @@
 [ -z "$focus" ] && target="$1" && shift || target="$focus"
 [ -z "$target" ] && exit 1
 
-focus=`echo "$target" | xargs -I _WID_ xwininfo -children -id _WID_ | egrep '^  Parent' | egrep -o '0x[0-9A-Za-z]*'`
-[ $focus = $(xwininfo -root | sed -n 2p | cut -d' ' -f 4) ] && focus=`lsw -r`
+focus=`echo "$target" | xargs xwininfo -children -id | egrep '^  Parent' | egrep -o '0x[0-9A-Za-z]*'`
+[ $focus = $(xwininfo -root | sed -n 2p | cut -d' ' -f 4) ] && focus="$target"
 export focus
 echo "$focus"
 

@@ -1,22 +1,20 @@
 #!/bin/sh
 
 DISPLAY=:0
-TMPDIR=/home/$USER/tmp
+KLDGDIR=/tmp
 BORDER=3
 ACTIVE_BORDER=3
 INACTIVE_BORDER=0
 BORDER_COLOR=cc4444
 
-export DISPLAY TMPDIR BORDER ACTIVE_BORDER INACTIVE_BORDER BORDER_COLOR
+export KLDGDIR DISPLAY TMPDIR BORDER ACTIVE_BORDER INACTIVE_BORDER BORDER_COLOR
 
 X -quiet &
 xpid=$!
-until lsw; do continue; done
 
-sxhkd &
-rainbow.sh &
+sleep 2
 
-hsetroot -fill Stars.jpg
-xmodmap .Xmodmap.bak
-
-wait xpid 
+bar & 
+xmodmap .Xmodmap
+hsetroot -fill ${HOME}/image/wallpaper/Stars.jpg
+sxhkd 

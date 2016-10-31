@@ -1,24 +1,31 @@
-#!/bin/sh
+#!/bin/sh -x
 
-bord=${BORDER:-1}
+kdir=${KLDGDIR:-/tmp}
+bord=${BORDER:-3}
 abord=${ACTIVE_BORDER:-$bord}
 nbord=${INACTIVE_BORDER:-$bord}
 
 color=${BORDER_COLOR:-88cc88}
-ncolor=${INACTIVE_BORDER_COLOR:-888888}
+ncolor=${INACTIVE_BORDER_COLOR:-222222}
 
-lsw $1 || exit 1
 
-pfw >/dev/null && { #chwso -l
-	chwb -s $nbord -c $ncolor `pfw`
-	diff=`echo "$abord - $nbord" | bc`
-	wrs $diff $diff `pfw`
+test -n "$1" || exit 1
+target=$1 
+shift
+test ! "$target" = "$(pfw 2>/dev/null)" || exit 1
+
+pfw >/dev/null && { 
+	pfw > "$kdir"/previous.wid
+	chwso -l $(pfw)
+	chwb -s $nbord -c $ncolor $(pfw)
+	diff=$(echo "$abord - $nbord" | bc)
+	[ ! $diff -eq 0 ] && wrs $diff $diff $(pfw)
 	}
-wtf $1
+wtf $target
 chwb -s $abord -c $color `pfw`
 diff=`echo "$nbord - $abord" | bc`
-wrs $diff $diff `pfw`
+[ ! $diff -eq 0 ] && wrs $diff $diff `pfw`
 chwso -r `pfw`
-shift
+pfw > ${kdir}/focus.wid
 
-kludge "$@"
+exec kludge "$@"

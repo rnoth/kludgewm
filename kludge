@@ -3,9 +3,12 @@
 # TODO: make this portable
 KLUDGEDIR=/home/moth/project/kludgewm
 
+# TODO: make this actually work
 test "$1" = '-i' && while read command; do
 	exec ${KLUDGEDIR}/$command
 done
 
 test -n "$1" && exec ${KLUDGEDIR}/"${@}"
+
+# unset env variables
 focus=""

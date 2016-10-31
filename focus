@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 kdir=${KLDGDIR:-/tmp}
 bord=${BORDER:-3}

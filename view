@@ -1,4 +1,5 @@
 #!/bin/sh
+# note: none of this even works
 
 KLDGDIR=${KLDGDIR:-/tmp}
 

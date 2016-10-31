@@ -1,44 +1,43 @@
 #!/bin/sh
 
-gap=${1:-0}
+gap=${1:-20}
 
-ee(){ echo "$@" | bc
-}
+ee(){ echo "$*" | bc; }
 
-master=`pfw` || kludge cycle_focus forward
+master=`pfw` #|| kludge cycle_focus forward tile
 test -n $1 || master=$1
 
-stack=`lsw | grep -v $master`
+stack=`lsw | grep -v $master | xargs wattr yi | sort -h | awk '{ print $2 }'`
 
-rooth=$(wattr h `lsw -r`)
-rootw=$(wattr w `lsw -r`)
+rooth=$( wattr h `lsw -r` )
+rootw=$( wattr w `lsw -r` )
 
-hdiv=$(expr ${rootw}/2)
+hdiv=$( expr ${rootw}/2 )
 
-hgap=$(ee ${gap}/2)
+hgap=$( ee ${gap}/2 )
 test `lsw | wc -l` -eq 1 && hdiv=${rootw} && hgap=${gap}
 
-wtp 	$gap \
-	$gap \
-	$(ee ${hdiv} - ${gap} - ${hgap} - 2*$(wattr b ${master}) ) \
-	$(ee ${rooth} - 2*${gap} - 2*$(wattr b ${master})) \
+wtp 	${gap} \
+	${gap} \
+	$( ee ${hdiv} - ${gap} - ${hgap} - 2*$( wattr b ${master} ) ) \
+	$( ee ${rooth} - 2*${gap} - 2*$( wattr b ${master} ) ) \
 	${master} 
 
 nn=`echo "${stack}" | wc -l`
-vdiv=$(ee ${rooth}/${nn})
+vdiv=$( ee ${rooth}/${nn} )
 
 cnt=-1
 for window in ${stack}; do
-	cnt=$(ee ${cnt} + 1)
-	top_gap=$gap
-	bot_gap=$gap
-	test ! $cnt -eq 0 && top_gap=`ee $gap/2`
-	test ! $cnt -eq `ee ${nn}-1` && bot_gap=`expr $gap/2`
+	cnt=$( ee ${cnt} + 1 )
+	top_gap=${gap}
+	bot_gap=${gap}
+	test ! $cnt -eq 0 && top_gap=`ee ${gap}/2`
+	test ! $cnt -eq `ee ${nn}-1` && bot_gap=`expr ${gap}/2`
 	
-	wtp	$(ee ${hdiv} + ${gap}) \
-		$(ee ${vdiv}\* ${cnt} + ${gap}/2 + ${top_gap}/2 ) \
-		$(ee ${hdiv} - 2*${gap} - 2*`wattr b ${window}`) \
-		$(ee ${vdiv} - 2*${bot_gap} - 2*`wattr b ${window}`) \
+	wtp	$( ee ${hdiv} + ${gap} ) \
+		$( ee ${vdiv}\* ${cnt} + ${gap}/2 + ${top_gap}/2 ) \
+		$( ee ${hdiv} - 2*${gap} - 2*`wattr b ${window}` ) \
+		$( ee ${vdiv} - 2*${bot_gap} - 2*`wattr b ${window}` ) \
 		${window}
 
 done

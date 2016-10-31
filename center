@@ -1,8 +1,15 @@
 #!/bin/sh
 
-xunit=$(e $(wattr w `lsw -r`)/3)
-yunit=$(e $(wattr h `lsw -r`)/4)
+xunit=$(echo "$(wattr w `lsw -r`) / 3" | bc)
+yunit=$(echo "$(wattr h `lsw -r`) / 4" | bc)
 
-wtp $xunit $yunit `e $xunit` `e 2*$yunit` `pfw`
+focus=`pfw`
+[ -n "$1" ] && { focus=$1
+	shift
+	chwso -r $focus
+	wtf $focus
+}
+	
+wtp $xunit $yunit $xunit $(echo "2 * $yunit" | bc) ${focus}
 
 exec kludge "$@"

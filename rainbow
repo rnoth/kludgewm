@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#
+# z3bra - 2015 (c) wtfpl
+# make the current window "rainbowish"... Awesome idea from xero@nixers.net !
+
+FREQ=${FREQ:-.2}
+ COLORS="806060 806080 8060a0 8060c0 808060 808080 8080a0 8080c0 80a060 80a080 80a0a0 80a0c0 80c080 80c060 80c080 80c0a0 80c0c0 80b0b0 80a0a0 809090 808080"
+#CUR=$(wprnt $(pfw))
+
+while :; do
+    for c in $COLORS; do
+        chwb -c $c $(wprnt $(pfw));
+        /bin/sleep $FREQ
+    done
+done

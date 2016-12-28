@@ -1,8 +1,5 @@
 #! /bin/sh
 
-[ -z "$X_PAD_LEFT" ] && export X_PAD_LEFT=0
-[ -z "$Y_PAD_TOP" ] && export Y_PAD_TOP=0
-
 FW=`pfw`
 ROOT=`lsw -r`
 BORDER=`wattr b $FW`

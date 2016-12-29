@@ -7,8 +7,8 @@ FW=`wprnt \`pfw\``
 ROOT=`lsw -r`
 BORDER=`wattr b $FW`
 
-MAX_X=$(( $(wattr w $ROOT) - 2 * BORDER))
-MAX_Y=$(( $(wattr h $ROOT) - 2 * BORDER))
+MAX_X=$(( $(wattr w $ROOT) - 2 * $BORDER))
+MAX_Y=$(( $(wattr h $ROOT) - 2 * $BORDER))
 
 win_x=`wattr x $FW`
 win_y=`wattr y $FW`
@@ -21,25 +21,25 @@ delta_w=$3
 delta_h=$4
 shift 4
 
-(( x = win_x + delta_x ))
+x=$(($win_x + $delta_x ))
 
-if [ $(( x + win_w)) -gt $MAX_X ]; then
-	(( x = MAX_X - win_w ))
+if [ $(($x + $win_w)) -gt $MAX_X ]; then
+	x=$(($MAX_X - $win_w))
 elif [ $x -lt $X_PAD_LEFT ]; then
-	(( x = X_PAD_LEFT ))
+	x=$X_PAD_LEFT
 fi
 
-(( y = win_y + delta_y ))
+y=$(($win_y + $delta_y))
 
-if [ $(( y + win_h)) -gt $MAX_Y ]; then
-	(( y = MAX_Y - win_h))
+if [ $(($y + $win_h)) -gt $MAX_Y ]; then
+	y=$(($MAX_Y - $win_h))
 elif [ $y -lt $Y_PAD_TOP ]; then
-	(( y = Y_PAD_TOP ))
+	y=$Y_PAD_TOP
 fi
 
-((w = win_w + delta_w))
+w=$(($win_w + $delta_w))
 
-((h= win_h + delta_h))
+h=$(($win_h + $delta_h))
 
 wtp $x $y $w $h $FW
 
